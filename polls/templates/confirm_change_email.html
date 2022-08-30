@@ -1,0 +1,6 @@
+{% autoescape off %}  
+Hi {{ user.username }},  
+Please click on the link to confirm your email changing,  
+new email is = {{email}}
+http://{{ domain }}{% url 'confirm_change' uidb64=uid token=token %}
+{% endautoescape %} 
