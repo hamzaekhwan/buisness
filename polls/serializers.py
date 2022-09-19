@@ -8,11 +8,21 @@ class appstore_configSerializer(serializers.ModelSerializer):
     class Meta:
         model = appstore_config_class
         fields = ('status','Link')
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ('Image','Name')        
 class Playstore_configSerializer(serializers.ModelSerializer):
     class Meta:
         model = Playstore_config_class
         fields = ('status','Link')       
-
+class favoriteSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = favorite
+        fields = ('favoriteUser_id',)
+     
 
 class ConfigSerializer(serializers.ModelSerializer):
 
@@ -59,6 +69,18 @@ class UserSerializerWithToken(UserSerializer):
         token = RefreshToken.for_user(obj)
         return str(token.access_token)
 
+class DataSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = data
+        fields = ['form_id', 'name', 'isActive', 'title', 'domain', 'username','color1','image']
+
+
+
+class PlatformSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = platforms
+        fields='__all__'
 
 class ChangePasswordSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
@@ -103,3 +125,108 @@ class pic (object)        :
 class picSerializer(serializers.Serializer)        :
 
     image=serializers.ImageField()
+
+
+class fi (object)        :
+    def __init__(self,file):
+        self.file=file
+class fileSerializer(serializers.Serializer)        :
+
+    file=serializers.FileField()
+
+################################### custom page ###################################################
+
+class titleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = title
+        fields='__all__'
+
+class headerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = header
+        fields='__all__'  
+
+
+class htmlSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = html
+        fields='__all__'  
+
+
+class contact_formSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = contact_form
+        fields='__all__'
+
+
+class RSS_FeedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RSS_Feed 
+        fields='__all__'
+
+
+class LinkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Link 
+        fields='__all__'       
+
+       
+
+class IMAGESerializer(serializers.ModelSerializer):
+    class Meta:
+        model = IMAGE 
+        fields='__all__'       
+
+class productSerializer(serializers.ModelSerializer):
+    list_of_image=serializers.SerializerMethodField()
+    class Meta:
+        model = product 
+        fields=('id','user','name','list_of_image','price','description','discount','payment','connection','report','info')
+      
+        
+
+    def get_list_of_image(self, obj):
+        a=[]
+        if obj.image1 != " ":
+            file=obj.image1
+            new=pic(file)
+            serializer=picSerializer(new)
+            img=serializer.data
+            a.append(img['image'])
+       
+        if obj.image2 != " ":
+            file=obj.image2
+            print(pic(file))
+            new=pic(file)
+            serializer=picSerializer(new)
+            img=serializer.data
+            a.append(img['image'])
+       
+
+        if obj.image3 != " ":
+            file=obj.image3
+            new=pic(file)
+            serializer=picSerializer(new)
+            img=serializer.data
+            a.append(img['image'])
+       
+
+        if obj.image4 != " ":
+            file=obj.image4
+            new=pic(file)
+            serializer=picSerializer(new)
+            img=serializer.data
+            a.append(img['image'])
+       
+
+        if obj.image5 != " ":
+            file=obj.image5
+            new=pic(file)
+            serializer=picSerializer(new)
+            img=serializer.data
+            a.append(img['image'])
+
+        return a
+        
+
+               
